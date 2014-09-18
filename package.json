@@ -1,6 +1,6 @@
 {
   "name": "pouch-datalog",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Datalog query engine for PouchDB.",
   "main": "index.js",
   "repository": {
