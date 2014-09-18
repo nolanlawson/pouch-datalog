@@ -1,4 +1,4 @@
-/*jshint expr:true */
+/*jshint expr:true,multistr:true */
 'use strict';
 
 var Pouch = require('pouchdb');
@@ -6,8 +6,8 @@ var Pouch = require('pouchdb');
 //
 // your plugin goes here
 //
-var helloPlugin = require('../');
-Pouch.plugin(helloPlugin);
+var dataqueryPlugin = require('../');
+Pouch.plugin(dataqueryPlugin);
 
 var chai = require('chai');
 chai.use(require("chai-as-promised"));
@@ -35,17 +35,50 @@ function tests(dbName, dbType) {
 
   var db;
 
-  beforeEach(function () {
+  beforeEach(function (done) {
     db = new Pouch(dbName);
-    return db;
+    db.put({
+      _id: "1",
+      label: "last_name",
+      value: "benson"
+    }).then(function () {
+      return db.put({
+        _id: "_design/eav",
+        language: "javascript",
+        views: {
+          eav: {
+            map: "function(doc) {\n\
+              emit([doc._id,doc.label,doc.value],[doc._id,doc.label,doc.value]);\n\
+            }"
+          }
+        }
+      });
+    }).then(function () {
+      return db.put({
+        _id: "_design/ave",
+        language: "javascript",
+        views: {
+          ave: {
+            map: "function(doc) {\n\
+              emit([doc.label,doc.value,doc._id],[doc._id,doc.label,doc.value]);\n\
+            }"
+          }
+        }
+      });
+    }).then(function () {
+      done();
+    });
   });
   afterEach(function () {
     return Pouch.destroy(dbName);
   });
-  describe(dbType + ': hello test suite', function () {
-    it('should say hello', function () {
-      return db.sayHello().then(function (response) {
-        response.should.equal('hello');
+  describe(dbType + ': dataquery test suite', function () {
+    it('should have a dataquery method', function (done) {
+      db.dataquery('[:find ?id \
+                            :in \
+                            :where [?id "last_name" "benson"]]').then(function (response) {
+        response.should.eql([['1']]);
+        done();
       });
     });
   });
