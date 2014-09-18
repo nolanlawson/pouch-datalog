@@ -96,7 +96,7 @@ The sky is the limit as to customizing the indexes. Don't include some documents
 
 # Comparison Against Cloudant Query?
 
-I don't have any experience with Cloudant query, but I'm guessing that it would have smaller indexes (since they aren't indexing everything, and wouldn't have some of the cool logic programming bits that Datalog does. Cloudant Query is probably far more production-ready, though not generally available just yet.
+I don't have any experience with Cloudant query, but I'm guessing that it would have smaller indexes (since they aren't indexing everything, and wouldn't have some of the cool logic programming bits that Datalog does. Cloudant Query is probably far more production-ready, though not generally available just yet. Cloudant query will, of course, eventually be the standard for CouchDB.
 
 [1] They may actually use 3 or 4 indexes, all of which typically have a fourth term 'T' in them, but we can ignore that for now.
 [2] Yes, I realize one shouldn't need to emit anything for the `value` here. Coming soon…pull requests welcome.
