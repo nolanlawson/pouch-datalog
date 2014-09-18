@@ -2,6 +2,8 @@
 
 Datomic-like Datalog queries for PouchDB! (See [Learn Datalog Today](http://www.learndatalogtoday.org/) for some examples of how Datalog works.)
 
+The query engine is a fork from [Datascript](https://github.com/tonsky/datascript).
+
 # Ready?
 
 Probably not. Give it a spin, make pull requests, and we'll see if we can't get ready! I expect I've added bugs galore to the basic query engine. Contributions gladly welcome.
